@@ -28,7 +28,7 @@ public class ServicioJugador {
     public static void cartasEnMano(Jugador jugador){
         int i = 1;
         for (Carta carta : jugador.getMisCartasEnJuego()) {
-            System.out.println(i++ + "-" + carta);
+            System.out.println(i++ + "- " + carta);
         }
     }
     

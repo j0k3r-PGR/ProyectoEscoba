@@ -22,8 +22,8 @@ public class Carta {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("numero= ").append(numero);
-        sb.append("-- palo= ").append(palo);
+        sb.append("").append(numero);
+        sb.append(" de ").append(palo);
         return sb.toString();
     }
 
