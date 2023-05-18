@@ -24,7 +24,7 @@ public class Serviciojuego {
     public static void mostrarJuego(Jugador jugador1, Jugador jugador2){
         int i = 1;
         System.out.println("Cartas PC:");
-        ServicioJugador.cartasEnMano(jugador2);
+        ServicioJugador.cartasEnMano(jugador1);
         System.out.println("-----------------------------------------------------------------");
         System.out.println("Cartas en mesa: ");
         for (Carta carta : cartasEnMesa) {

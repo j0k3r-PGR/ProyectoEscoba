@@ -3,11 +3,15 @@ package servicios;
 import entidades.Carta;
 import entidades.Jugador;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class IAplayer {
-
-    private static ArrayList<ArrayList<Carta>> posibilidades = new ArrayList();
-
+    private static final Carta ORO7 = new Carta("7","ORO");
+    private static final Carta COPA7 = new Carta("7","COPA");
+    private static final Carta ESPADA7 = new Carta("7","ESPADA");
+    private static final Carta BASTO7 = new Carta("7","BASTO");
+    private static ArrayList<ArrayList<Carta>> posibilidades;
+    private static ArrayList<ArrayList<Carta>> aux = new ArrayList();
     // Falta mejorar cuando toca con la pos [0,(1),2,(3)] - 1 y 3 por ejemplo
     // parece que quedo solucionado... seguimos en prueba
     
@@ -24,6 +28,8 @@ public class IAplayer {
      */
     public static boolean puedeLevantar(Jugador jugador, ArrayList<Carta> cartasEnMesa) {
         int suma;
+        posibilidades = new ArrayList();
+        posibilidades.clear();
         boolean levanta = false;
         ArrayList<Carta> aux = new ArrayList();
         ArrayList<Integer> pos = new ArrayList();
@@ -69,6 +75,7 @@ public class IAplayer {
             return true;
         }else{
             posibilidades.clear();
+            System.out.println(posibilidades);
             return false;
         }
     }
@@ -80,7 +87,19 @@ public class IAplayer {
         si no seguir viendo posibilidades del juego para que la ia 
         juegue como una persona y simular su pensamiento
     */
-    public static void analizarJugadaIaYLevantar(){
+    public static void analizarJugadaIaYLevantarOtirar(Jugador jugador, ArrayList<Carta> cartasEnMesa){
+        
+        
+        System.out.println(contains7());
+        if(contains7() > 1){
+            System.out.println("-------"+mejorJugadaOro());
+        }else if (contains7() == 1){
+            System.out.println("-------"+aux.get(0));
+        }
+        
+        for (ArrayList<Carta> posibilidad : posibilidades) {
+            System.out.println(posibilidad);
+        }
         
     }
     
@@ -89,4 +108,67 @@ public class IAplayer {
         return posibilidades;
     }
     
+    
+    private static int contains7(){
+        for (ArrayList<Carta> posibilidad : posibilidades) {
+            for (Carta carta : posibilidad) {
+                if(ORO7.equals(carta)){
+                    aux.add(posibilidad);
+                    
+                }else if (COPA7.equals(carta) || ESPADA7.equals(carta) || BASTO7.equals(carta)){
+                    aux.add(posibilidad);
+                }
+            }
+        }
+        return aux.size();
+    }
+    
+    private static ArrayList<Carta> mejorJugadaOro(){
+        ArrayList<Carta> mejor = new ArrayList();
+        int oroMayor = 0, oroActual;
+        for (ArrayList<Carta> jugada : IAplayer.aux) {
+            oroActual = buscarOro(jugada);
+            if (oroMayor < oroActual){
+                oroMayor = oroActual;
+                mejor = jugada;
+            }
+        }
+        return mejor;
+     }
+    
+    private static int buscarOro(ArrayList<Carta> cartas){
+        int contador = 0;
+        
+        for (Carta carta : cartas) {
+            if (carta.getPalo().equals("ORO")){
+                contador++;
+            }
+        }
+        return contador;
+    }
+    
 }
+
+
+
+/*
+        Sirve para elejir un juego al azar de los posibles!
+        */
+//        Random rn = new Random();
+//        if(puedeLevantar(jugador, cartasEnMesa)){
+//            ArrayList<Carta> azar = posibilidades.get(rn.nextInt(posibilidades.size()));
+//            int azarLongitud = azar.size();
+//            for (int i = 0; i < azarLongitud; i++) {
+//                jugador.getMiMontonCartas().add(azar.get(i));
+//                if (i == 0){
+//                    System.out.println(azar.get(i));
+//                    jugador.getMisCartasEnJuego().remove(azar.get(i));
+//                }else {
+//                    System.out.println(azar.get(i));
+//                    cartasEnMesa.remove(azar.get(i));
+//                }
+//            }
+//        }else {
+//            int aux = rn.nextInt(jugador.getMisCartasEnJuego().size());
+//            cartasEnMesa.add(jugador.getMisCartasEnJuego().remove(aux));
+//        }

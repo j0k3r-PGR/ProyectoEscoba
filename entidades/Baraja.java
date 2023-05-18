@@ -20,14 +20,12 @@ public class Baraja {
      * @param ingreso "es" or "fr" para crear baraja de cartas
      */
     public Baraja(String ingreso){
-        if ("es".equals(ingreso)){
-            crearBaraja(PALOSES,VALORESES);
-        }else if(ingreso.equals("fr")){
-            crearBaraja(PALOSFR,VALORESFR);
-        } else{
-            System.out.println("adios");
-            System.out.println("Parametro ingresado incorrecto, No existe la baraja");
-            baraja = null;
+        switch (ingreso) {
+            case "es": crearBaraja(PALOSES,VALORESES);break;
+            case "fr":  crearBaraja(PALOSFR,VALORESFR);break;
+            default:  
+                System.out.println("Parametro ingresado incorrecto, No existe la baraja");
+                baraja = null;
         }
     }
     
@@ -42,6 +40,7 @@ public class Baraja {
         }
         //baraja.add(new Carta("JOKER","Blanco"));
         //baraja.add(new Carta("JOKER","Negro")); // aca toy yo!
+        
     }
     
     public ArrayList<Carta> getBaraja() {
